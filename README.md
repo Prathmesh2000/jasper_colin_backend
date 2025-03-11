@@ -7,9 +7,9 @@ env
 
 Follow the steps below to get your development environment set up:
 
-1. **Clone the repository**:
-   ```bash
-   git clone <repo-url>
+create .env file
+add above variables
 
+run via npm run dev
 
 
