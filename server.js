@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 4002;
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/fullstack-app';
 
 if (cluster.isMaster) {
-  const numCPUs = os.cpus().length>3 ? 1 : os.cpus().length;
+  const numCPUs = os.cpus().length>3 ? 3 : os.cpus().length;
   for (let i = 0; i < numCPUs; i++) {
     cluster.fork();
   }
