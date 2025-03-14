@@ -19,6 +19,16 @@ router.post('/register', async (req, res) => {
       const user = new User({ firstname, lastname, username, password: decodedPassword, role });
       await user.save();
 
+      const token = jwt.sign({ userId: user._id, role: user.role}, process.env.JWT_SECRET, { expiresIn: '1d' });
+      
+      res.cookie('token', token, {
+        httpOnly: true, 
+        secure: false, 
+        sameSite: 'Lax', 
+        maxAge: 24 * 60 * 60 * 1000, 
+        domain: 'localhost', 
+      });
+
       return createdResponse(res, 1);
     } catch (error) {
         if (error.code === 11000 && error.message.includes('duplicate key error')) {
@@ -46,10 +56,10 @@ router.post('/login', async (req, res) => {
       
       res.cookie('token', token, {
         httpOnly: true, 
-        secure: false, // Set `true` if using HTTPS
-        sameSite: 'Lax', // 'Lax' is safer for local dev; 'Strict' might block it
+        secure: false, 
+        sameSite: 'Lax', 
         maxAge: 24 * 60 * 60 * 1000, 
-        domain: 'localhost', // Explicitly set domain for local development
+        domain: 'localhost', 
       });
       
   
